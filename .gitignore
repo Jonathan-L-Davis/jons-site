@@ -3,5 +3,7 @@
 !images/
 !css/
 !.gitignore
-!README.md
 !home.html
+!template.html
+!README.md
+
