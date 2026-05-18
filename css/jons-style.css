@@ -1,11 +1,23 @@
+*{
+    margin-left: calc(8px + 10.5625vw);
+    margin-right: calc(8px + 10.5625vw);
+}
+
 body {
-  background-color: white;
+    background-color: white;
 }
 
 h1 {
-  text-align: center;
+    text-align: center;
 }
 
 p {
-  text-align: center;
+    text-align: center;
+}
+
+.bullet{
+    display: list-item;
+    list-style-type: disc;
+    list-style-position: outside;
+    text-align: left;
 }
