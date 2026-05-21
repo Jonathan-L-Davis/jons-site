@@ -1,6 +1,17 @@
-*{
-    margin-left: calc(12.5vw - 32px);
-    margin-right: calc(12.5vw - 32px);
+
+@media all and (orientation: landscape){
+    *{
+        margin-left: 12.5vw;
+        margin-right: 12.5vw;
+    }
+}
+
+
+@media all and (orientation: portrait){
+    *{
+        margin-left: 0.5vw;
+        margin-right: 0.5vw;
+    }
 }
 
 body {
