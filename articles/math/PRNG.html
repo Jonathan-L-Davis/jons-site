@@ -3,7 +3,7 @@
 <head>
     <title>Jon's site!</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <link rel="stylesheet" href="../../css/jons-style.css">
+    <link rel="stylesheet" href="/css/jons-style.css">
 </head>
 <body>
     <h1>Writing a PRNG from scratch</h1>
@@ -15,11 +15,11 @@
     
     <h3>128-bit multiplication</h3>
     <p>The most important trick is that we can split our larger numbers into smaller numbers, multiply those, then add them together in the right order. This is how you learned to multiply in grade school.</p>
-    <img src="../../images/articles/math/PRNG/GradeSchoolMul.jpg" title="20 over the funny number. Literally 1984." style="width:300px;height:400px;"/>
+    <img src="/images/articles/math/PRNG/GradeSchoolMul.jpg" title="20 over the funny number. Literally 1984." style="width:300px;height:400px;"/>
     <p>In the above example, we took two base 10 numbers & split them into individual digits, performing multiplications on individual digits. But we could have just as well split them into pairs of digits, if you wanted to memorize a multiplication table with 10'000 entries. The decision of where to split numbers is arbitrary, and we can choose a split that is most convenient for us. So long as we add all the parts correctly, we get the same result.</p>
     
     <p>I'm using C++ for this generator, and C++ has uint64_t, but no uint128_t. Notice that these are consecutive powers of 2, so it is very appealing to make our splits down the middle of a type to simulate the next type up. I skipped over this because it was pretty trivial to implement, but I'm counting on already having 128-bit addition for this. It's not required, but it makes our lives a little bit easier. Now, breaking our 128-bit integer into two 64-bit integers is fairly straight forward.</p>
-    <img src="../../images/articles/math/PRNG/BreakUp.jpg" style="width:400px;height:50px;"/>
+    <img src="/images/articles/math/PRNG/BreakUp.jpg" style="width:400px;height:50px;"/>
     <p>The constants 'a1' & 'a0' are the high & low bits of the 128-bit integer 'a', and 'x' is set to 2^64. This is implicit in the code, we won't be multiplying by that number directly, we'll just have to take care to shift our sub-products the right amount. This is exactly the same process as sliding the result over a place in our grade school multiplication example. We don't explicitly multiply by any power of 10, we just shift our sub-products to the right spot. Another thing to notice is that 'a' is written in polynomial notation. The only additional wrinkle is that since x is constant, we have to be mindful of overflow when we add with 64-bit ints as opposed to 128-bit ints. Using 128-bit addition lets us ignore that detail.</p>
     
     <h3>LCG implementation</h3>
@@ -27,7 +27,7 @@
     
     <h2>Testing my LCG.</h2>
     <p>We can run <a href="https://github.com/MartyMacGyver/PractRand">PractRand</a> as a test of at what scale our generator breaks down.</p>
-    <img src="../../images/articles/math/PRNG/PractRand test.png"/>
+    <img src="/images/articles/math/PRNG/PractRand test.png"/>
     <p>That's a lot of text. Whats going on here?</p>
     <p>PractRand runs tests on streams of randomness. My RNG is pushing out 8 bytes at a time of RNG, & RNG_test is running statistical tests on that stream looking for patterns. The first test finished in 4 seconds & tested a quarter gigabyte of randomness. Each next print out is a doubling of the amount of output tested. My LCG failed after outputting 64 gigabytes worth of RNG. That's 2^33 outputs. And it only failed 3 tests. That's good enough for what I need. Could we do better? Certainly, but how many outputs does it really take before that failure influences the accuracy of numerical processes? I don't know, but I'll settle for this for now & measure it when I write a serious numerical task.</p>
     
